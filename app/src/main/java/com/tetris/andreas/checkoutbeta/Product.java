@@ -29,7 +29,7 @@ public class Product {
     }
 
     public String toString() {
-        return name + " - Lowest price available: " + String.format("%.2f",price) + "€";
+        return name + " " + String.format("%.2f",price) + "€";
     }
 
 
