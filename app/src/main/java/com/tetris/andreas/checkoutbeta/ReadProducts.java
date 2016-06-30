@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,8 +87,10 @@ public class ReadProducts {
 
     private void loadChild(String[] products) {
         childList = new ArrayList<>();
-        for (String model : products)
-            childList.add(model);
+        for (String model : products) {
+            childList.add(model.split("\\.")[0] + " - väikseim hind: " +
+                    Double.parseDouble(model.split("\\.")[1]) / 100 + "€");
+        }
     }
 
 }
