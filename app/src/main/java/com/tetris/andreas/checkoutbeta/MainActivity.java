@@ -9,13 +9,15 @@ import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements SwipeInterface{
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View contentView = (View) findViewById(R.id.main);
 
         ExpandableListView choices = (ExpandableListView) findViewById(R.id.listView);
 
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        ActivitySwipeDetector swipe = new ActivitySwipeDetector(this);
+
+        contentView.setOnTouchListener(swipe);
+
         Button basketButton = (Button) findViewById(R.id.basketButton);
 
         basketButton.setOnClickListener(new View.OnClickListener() {
@@ -48,4 +54,29 @@ public class MainActivity extends AppCompatActivity{
                 MainActivity.this.startActivity(myIntent);
             }
         });
-    }}
+    }
+
+    @Override
+    public void bottom2top(View v) {
+        return;
+    }
+
+    @Override
+    public void left2right(View v) {
+        System.out.println("DETECTED");
+        Intent myIntent = new Intent(MainActivity.this, BasketActivity.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    @Override
+    public void right2left(View v) {
+        return;
+    }
+
+    @Override
+    public void top2bottom(View v) {
+        return;
+    }
+}
+
+
