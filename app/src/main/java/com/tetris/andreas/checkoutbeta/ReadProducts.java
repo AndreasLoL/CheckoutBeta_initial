@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,20 +24,21 @@ public class ReadProducts {
 
     private List<String> groupList = new ArrayList<>();
 
-    private Map<String, List<String>> foodCollection = new LinkedHashMap<>();
+    private Map<String, List<Product>> foodCollection = new LinkedHashMap<>();
 
     private List<String> childList;
 
+    private List<Product> productsList;
 
     public ReadProducts(Context context, String fileName) {
         this.context = context;
 
         this.fileName = fileName;
 
-        System.out.println(readToString());
+        readToString();
     }
 
-    public Map<String, List<String>> getFoodCollection() {
+    public Map<String, List<Product>> getFoodCollection() {
         return this.foodCollection;
     }
 
@@ -82,15 +82,19 @@ public class ReadProducts {
 
         loadChild(spl[1].split(","));
 
-        foodCollection.put(spl[0], childList);
+        foodCollection.put(spl[0], productsList);
     }
 
     private void loadChild(String[] products) {
         childList = new ArrayList<>();
-        for (String model : products) {
-            childList.add(model.split("\\.")[0] + " - väikseim hind: " +
-                    String.format("%.2f", Double.parseDouble(model.split("\\.")[1]) / 100) + "€");
+        productsList = new ArrayList<>();
+        for (String type : products) {
+            Product temp = new Product(type.split("\\.")[0], Double.parseDouble(type.split("\\.")[1]) / 100);
+            productsList.add(temp);
+            childList.add(temp.toString());
         }
+
+
     }
 
 }

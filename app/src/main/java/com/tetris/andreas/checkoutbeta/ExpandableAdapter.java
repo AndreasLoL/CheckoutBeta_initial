@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,17 +19,17 @@ import java.util.Map;
 public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
-    private Map<String, List<String>> laptopCollections;
+    private Map<String, List<Product>> laptopCollections;
     private List<String> laptops;
 
     public ExpandableAdapter(Activity context, List<String> laptops,
-                                 Map<String, List<String>> laptopCollections) {
+                                 Map<String, List<Product>> laptopCollections) {
         this.context = context;
         this.laptopCollections = laptopCollections;
         this.laptops = laptops;
     }
 
-    public Object getChild(int groupPosition, int childPosition) {
+    public Product getChild(int groupPosition, int childPosition) {
         return laptopCollections.get(laptops.get(groupPosition)).get(childPosition);
     }
 
@@ -41,7 +40,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     public View getChildView(final int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final String laptop = (String) getChild(groupPosition, childPosition);
+        final String laptop = (String) getChild(groupPosition, childPosition).toString();
         LayoutInflater inflater = context.getLayoutInflater();
 
         if (convertView == null) {
@@ -60,7 +59,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                List<String> child =
+                                List<Product> child =
                                         laptopCollections.get(laptops.get(groupPosition));
                                 child.remove(childPosition);
                                 notifyDataSetChanged();
@@ -119,4 +118,6 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
+
 }
