@@ -89,7 +89,7 @@ public class ReadProducts {
         childList = new ArrayList<>();
         for (String model : products) {
             childList.add(model.split("\\.")[0] + " - väikseim hind: " +
-                    Double.parseDouble(model.split("\\.")[1]) / 100 + "€");
+                    String.format("%.2f", Double.parseDouble(model.split("\\.")[1]) / 100) + "€");
         }
     }
 
