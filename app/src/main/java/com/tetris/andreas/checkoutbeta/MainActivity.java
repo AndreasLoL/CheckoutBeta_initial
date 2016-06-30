@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements SwipeInterface{
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainActivity.this, BasketActivity.class);
-
                 MainActivity.this.startActivity(myIntent);
+                MainActivity.this.finish();
             }
         });
     }
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements SwipeInterface{
         System.out.println("DETECTED");
         Intent myIntent = new Intent(MainActivity.this, BasketActivity.class);
         MainActivity.this.startActivity(myIntent);
+        MainActivity.this.finish();
     }
 
     @Override

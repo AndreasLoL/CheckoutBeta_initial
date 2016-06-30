@@ -1,5 +1,6 @@
 package com.tetris.andreas.checkoutbeta;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -37,10 +38,6 @@ public class BasketActivity extends AppCompatActivity implements SwipeInterface 
 
         basketView.setAdapter(new CustomListAdapter(this, R.layout.basket_item, list));
 
-//        ArrayAdapter adapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_1, list);
-//
-//        basketView.setAdapter(adapter);
 
         ActivitySwipeDetector swipe = new ActivitySwipeDetector(this);
 
@@ -76,6 +73,7 @@ public class BasketActivity extends AppCompatActivity implements SwipeInterface 
     public void onBackPressed() {
         Intent myIntent = new Intent(BasketActivity.this, MainActivity.class);
         BasketActivity.this.startActivity(myIntent);
+        BasketActivity.this.finish();
     }
 
     private class CustomListAdapter extends ArrayAdapter<String> {
@@ -84,8 +82,11 @@ public class BasketActivity extends AppCompatActivity implements SwipeInterface 
 
         private List<String> mObjects;
 
+        private Context context;
+
         public CustomListAdapter(Context context, int resource, List<String> objects) {
             super(context, resource, objects);
+            this.context = context;
             mObjects = objects;
             layout = resource;
         }
@@ -106,12 +107,21 @@ public class BasketActivity extends AppCompatActivity implements SwipeInterface 
             mainViewholder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Button was clicked for list item " + position, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Item removed!", Toast.LENGTH_SHORT).show();
+                    remove(getItem(position));
+                    notifyDataSetChanged();
+                    GlobalParameters.b.removeProduct(position);
+                    UpdatePrice();
                 }
             });
             mainViewholder.title.setText(getItem(position));
 
             return convertView;
+        }
+
+        public void UpdatePrice(){
+            TextView txtView = (TextView) ((Activity)context).findViewById(R.id.priceView);
+            txtView.setText("Total: " + String.format("%.2f", GlobalParameters.b.getTotalPrice()) + "€");
         }
 
     }

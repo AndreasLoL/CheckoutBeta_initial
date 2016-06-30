@@ -22,6 +22,12 @@ public class Basket {
         return temp;
     }
 
+    public void removeProduct(int index) {
+        if (index < allProducts.size()) {
+            allProducts.remove(index);
+        }
+    }
+
     public void setAllProducts(List<Product> allProducts) {
         this.allProducts = allProducts;
     }
