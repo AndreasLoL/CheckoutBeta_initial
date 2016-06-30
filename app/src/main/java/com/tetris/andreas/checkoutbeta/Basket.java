@@ -1,5 +1,6 @@
 package com.tetris.andreas.checkoutbeta;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,48 @@ import java.util.List;
  */
 public class Basket {
 
-    private List<Product> allProducts = new ArrayList<>();
-
-
-
-    public Basket(String basketName) {
-
+    public List<Product> getAllProducts() {
+        return allProducts;
     }
 
+    public Product[] getAllProductsArray() {
+        Product[] temp = new Product[allProducts.size()];
+        for (int i = 0; i < allProducts.size(); i++) {
+            temp[i] = allProducts.get(i);
+        }
+
+        return temp;
+    }
+
+    public void setAllProducts(List<Product> allProducts) {
+        this.allProducts = allProducts;
+    }
+
+    public String getBasketName() {
+        return basketName;
+    }
+
+    public void setBasketName(String basketName) {
+        this.basketName = basketName;
+    }
+
+    private List<Product> allProducts = new ArrayList<>();
+
+    private String basketName;
+
+    public Basket(String basketName) {
+        this.basketName = basketName;
+    }
+
+    public void addToBasket(Product p) {
+        allProducts.add(p);
+    }
+
+    public double getTotalPrice() {
+        double total = 0;
+        for (Product p : allProducts) {
+            total += p.getPrice();
+        }
+        return total;
+    }
 }

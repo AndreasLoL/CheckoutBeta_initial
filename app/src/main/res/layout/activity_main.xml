@@ -16,4 +16,13 @@
         android:layout_marginRight="100dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View basket"
+        android:id="@+id/basketButton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="260dp" />
+
 </RelativeLayout>
