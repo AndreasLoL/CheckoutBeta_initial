@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +48,6 @@ public class ReadProducts {
     private boolean readToString() {
         AssetManager assetManager = context.getAssets();
         try {
-            StringBuilder buf = new StringBuilder();
-
             InputStream stream = assetManager.open(fileName);
 
             BufferedReader in=
@@ -80,10 +77,6 @@ public class ReadProducts {
             return;
         }
 
-        System.out.println(Arrays.toString(spl));
-
-        System.out.println(spl[0]);
-
         groupList.add(spl[0]);
 
         loadChild(spl[1].split(","));
@@ -91,9 +84,9 @@ public class ReadProducts {
         foodCollection.put(spl[0], childList);
     }
 
-    private void loadChild(String[] laptopModels) {
-        childList = new ArrayList<String>();
-        for (String model : laptopModels)
+    private void loadChild(String[] products) {
+        childList = new ArrayList<>();
+        for (String model : products)
             childList.add(model);
     }
 
