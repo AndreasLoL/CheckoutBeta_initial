@@ -26,33 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
         ExpandableListView choices = (ExpandableListView) findViewById(R.id.listView);
 
-        List<String> groupList = new ArrayList<>();
+        ReadProducts r = new ReadProducts(this, "products.txt");
 
-        groupList.add("Piim");
-        groupList.add("Vesi");
-        groupList.add("Leib");
-        groupList.add("Juust");
-
-        Map<String, List<String>> foodCollection = new LinkedHashMap<>();
-
-        String[] companies = {"firma1", "firma2", "firma3"};
-
-        for (String collections : groupList) {
-            loadChild(companies);
-
-            foodCollection.put(collections, childList);
-        }
-
-
-        ExpandableListAdapter adapter = new ExpandableAdapter(this, groupList, foodCollection);
+        ExpandableListAdapter adapter = new ExpandableAdapter(this, r.getGroupList(), r.getFoodCollection());
 
         choices.setAdapter(adapter);
-    }
 
-    private void loadChild(String[] laptopModels) {
-        childList = new ArrayList<String>();
-        for (String model : laptopModels)
-            childList.add(model);
     }
 
 }
