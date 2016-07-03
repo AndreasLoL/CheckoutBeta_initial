@@ -5,6 +5,6 @@ package com.tetris.andreas.checkoutbeta;
  */
 public class GlobalParameters {
 
-    public static Basket b;
+    public static Basket b = new Basket("LUL");
 
 }
