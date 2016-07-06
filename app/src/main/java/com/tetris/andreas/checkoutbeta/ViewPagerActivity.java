@@ -5,17 +5,20 @@ import android.support.v4.app.FragmentActivity;;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 
+
 public class ViewPagerActivity extends FragmentActivity {
     public static ViewPager viewPager;
+    ViewPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pager);
         viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(2);
+
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -27,8 +30,7 @@ public class ViewPagerActivity extends FragmentActivity {
             public void onPageSelected(int position) {
                 Fragment fragment = ((ViewPagerAdapter) viewPager.getAdapter()).getFragment(position);
 
-                if (position ==1 && fragment != null)
-                {
+                if (position == 1 && fragment != null) {
                     fragment.onResume();
                 }
             }
@@ -38,13 +40,5 @@ public class ViewPagerActivity extends FragmentActivity {
 
             }
         });
-
-
     }
-
-    public void selectPage(int page) {
-        viewPager.setCurrentItem(page);
-    }
-
-
 }

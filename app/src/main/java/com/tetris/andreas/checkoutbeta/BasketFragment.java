@@ -3,7 +3,6 @@ package com.tetris.andreas.checkoutbeta;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,14 +60,8 @@ public class BasketFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final ArrayList<String> list = new ArrayList<String>();
-        if (GlobalParameters.b != null && GlobalParameters.b.getAllProducts() != null) {
-            for (int i = 0; i < GlobalParameters.b.getAllProductsArray().length; ++i) {
-                list.add(GlobalParameters.b.getAllProductsArray()[i].toString());
-            }
-        }
 
-        basketView.setAdapter(new CustomListAdapter(mActivity, R.layout.basket_item, list));
+        basketView.setAdapter(new CustomListAdapter(mActivity, R.layout.basket_item, GlobalParameters.b.getAllProducts()));
 
         if (GlobalParameters.b != null && GlobalParameters.b.getAllProducts() != null) {
             price.setText("Total: " + String.format("%.2f", GlobalParameters.b.getTotalPrice()) + "€");
@@ -88,18 +83,18 @@ public class BasketFragment extends Fragment {
 //        BasketActivity.this.finish(); Todo: fix this
 //    }
 
-    private class CustomListAdapter extends ArrayAdapter<String> {
+    private class CustomListAdapter extends ArrayAdapter<Product> {
 
         private int layout;
 
-        private List<String> mObjects;
+        private List<Product> mObjects;
 
         private Context context;
 
-        public CustomListAdapter(Context context, int resource, List<String> objects) {
-            super(context, resource, objects);
+        public CustomListAdapter(Context context, int resource, List<Product> products) {
+            super(context, resource, products);
             this.context = context;
-            mObjects = objects;
+            mObjects = products;
             layout = resource;
         }
 
@@ -111,6 +106,8 @@ public class BasketFragment extends Fragment {
                 convertView = inflater.inflate(layout, parent, false);
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.thumbnail = (ImageView) convertView.findViewById(R.id.listImage);
+                viewHolder.thumbnail.setAnimation(null);
+                UrlImageViewHelper.setUrlDrawable(viewHolder.thumbnail, getItem(position).getImgURL());
                 viewHolder.title = (TextView) convertView.findViewById(R.id.listText);
                 viewHolder.button = (Button) convertView.findViewById(R.id.listButton);
                 convertView.setTag(viewHolder);
@@ -126,7 +123,7 @@ public class BasketFragment extends Fragment {
                     UpdatePrice();
                 }
             });
-            mainViewholder.title.setText(getItem(position));
+            mainViewholder.title.setText(getItem(position).toString());
 
             return convertView;
         }
@@ -139,7 +136,6 @@ public class BasketFragment extends Fragment {
     }
 
     public class ViewHolder {
-
         ImageView thumbnail;
         TextView title;
         Button button;

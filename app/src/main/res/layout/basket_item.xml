@@ -8,9 +8,9 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:id="@+id/listImage"
+        android:src="@drawable/pic1"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/pic1" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -24,11 +24,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="$54"
         android:id="@+id/listText"
-        android:layout_alignBottom="@+id/listButton"
-        android:layout_centerHorizontal="true"
         android:layout_marginRight="120dp"
-        android:layout_marginLeft="50dp" />
+        android:layout_marginLeft="50dp"
+        android:layout_marginEnd="19dp"
+        android:layout_alignBottom="@+id/listButton"
+        android:layout_toStartOf="@+id/listButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="PRODUCT"
+        android:id="@+id/textView"
+        android:layout_above="@+id/listText"
+        android:layout_toEndOf="@+id/listImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="#ffffff"
+        android:text="Small Text"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/listText"
+        android:layout_toEndOf="@+id/listImage"
+        android:autoText="false" />
 
 </RelativeLayout>

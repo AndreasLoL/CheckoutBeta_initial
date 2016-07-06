@@ -7,6 +7,16 @@ public class Product {
 
     private String name;
 
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    private String imgURL = "http://www.bbcgoodfood.com/sites/default/files/glossary/banana-crop.jpg";
+
     public double getPrice() {
         return price;
     }
