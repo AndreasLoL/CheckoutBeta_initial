@@ -140,7 +140,9 @@ public class BasketFragment extends Fragment {
                     Toast.makeText(getContext(), "Item removed!", Toast.LENGTH_SHORT).show();
                     remove(getItem(position));
                     notifyDataSetChanged();
+                    System.out.println(position);
                     GlobalParameters.b.removeProduct(position);
+                    System.out.println(GlobalParameters.b.getAllProducts());
                     UpdatePrice();
                 }
             });
@@ -157,10 +159,10 @@ public class BasketFragment extends Fragment {
             txtView.setText("Selver: " + String.format("%.2f", GlobalParameters.b.getSelverPrice()) + "€");
 
             TextView txt2View = (TextView) ((Activity)context).findViewById(R.id.prismaPrice);
-            txtView.setText("Prisma: " + String.format("%.2f", GlobalParameters.b.getPrismaPrice()) + "€");
+            txt2View.setText("Prisma: " + String.format("%.2f", GlobalParameters.b.getPrismaPrice()) + "€");
 
             TextView txt3View = (TextView) ((Activity)context).findViewById(R.id.maximaPrice);
-            txtView.setText("Maxima: " + String.format("%.2f", GlobalParameters.b.getMaximaPrice()) + "€");
+            txt3View.setText("Maxima: " + String.format("%.2f", GlobalParameters.b.getMaximaPrice()) + "€");
 
         }
 
