@@ -19,15 +19,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Total: 549"
-        android:id="@+id/priceView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,4 +28,34 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
         android:choiceMode="singleChoice" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Selver: 5"
+        android:id="@+id/selverPrice"
+        android:layout_alignParentBottom="true"
+        android:textSize="10sp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Maxima: 5"
+        android:id="@+id/maximaPrice"
+        android:textSize="10sp"
+        android:layout_alignTop="@+id/selverPrice"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Prisma: 5"
+        android:id="@+id/prismaPrice"
+        android:textSize="10sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

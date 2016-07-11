@@ -11,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,9 @@ public class BasketFragment extends Fragment {
     Activity mActivity;
 
     ListView basketView;
-    TextView price;
+    TextView selverPrice;
+    TextView maximaPrice;
+    TextView prismaPrice;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,13 +50,23 @@ public class BasketFragment extends Fragment {
 //
 //        basketView.setAdapter(new CustomListAdapter(mActivity, R.layout.basket_item, list));
 
-        price = (TextView) rootView.findViewById(R.id.priceView);
+        selverPrice = (TextView) rootView.findViewById(R.id.selverPrice);
+
+        prismaPrice = (TextView) rootView.findViewById(R.id.prismaPrice);
+
+        maximaPrice = (TextView) rootView.findViewById(R.id.maximaPrice);
+
 
         if (GlobalParameters.b != null && GlobalParameters.b.getAllProducts() != null) {
-            price.setText("Total: " + String.format("%.2f", GlobalParameters.b.getTotalPrice()) + "€");
+            selverPrice.setText("Selver: " + String.format("%.2f", GlobalParameters.b.getSelverPrice()) + "€");
+            prismaPrice.setText("Prisma: " + String.format("%.2f", GlobalParameters.b.getPrismaPrice()) + "€");
+            maximaPrice.setText("Maxima: " + String.format("%.2f", GlobalParameters.b.getMaximaPrice()) + "€");
         } else {
-            price.setText("Total: " + 0 + "€");
+            selverPrice.setText("Selver: " + 0 + "€");
+            maximaPrice.setText("Maxima: " + 0 + "€");
+            prismaPrice.setText("Prisma: " + 0 + "€");
         }
+
 
 
         return rootView;
@@ -61,12 +76,16 @@ public class BasketFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        basketView.setAdapter(new CustomListAdapter(mActivity, R.layout.basket_item, GlobalParameters.b.getAllProducts()));
+        basketView.setAdapter(new CustomListAdapter(mActivity, R.layout.basket_item_new, GlobalParameters.b.getAllProducts()));
 
         if (GlobalParameters.b != null && GlobalParameters.b.getAllProducts() != null) {
-            price.setText("Total: " + String.format("%.2f", GlobalParameters.b.getTotalPrice()) + "€");
+            selverPrice.setText("Selver: " + String.format("%.2f", GlobalParameters.b.getSelverPrice()) + "€");
+            prismaPrice.setText("Prisma: " + String.format("%.2f", GlobalParameters.b.getPrismaPrice()) + "€");
+            maximaPrice.setText("Maxima: " + String.format("%.2f", GlobalParameters.b.getMaximaPrice()) + "€");
         } else {
-            price.setText("Total: " + 0 + "€");
+            selverPrice.setText("Selver: " + 0 + "€");
+            maximaPrice.setText("Maxima: " + 0 + "€");
+            prismaPrice.setText("Prisma: " + 0 + "€");
         }
     }
 
@@ -105,11 +124,13 @@ public class BasketFragment extends Fragment {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
                 ViewHolder viewHolder = new ViewHolder();
-                viewHolder.thumbnail = (ImageView) convertView.findViewById(R.id.listImage);
+                viewHolder.thumbnail = (ImageView) convertView.findViewById(R.id.productImage);
                 viewHolder.thumbnail.setAnimation(null);
                 UrlImageViewHelper.setUrlDrawable(viewHolder.thumbnail, getItem(position).getImgURL());
-                viewHolder.title = (TextView) convertView.findViewById(R.id.listText);
-                viewHolder.button = (Button) convertView.findViewById(R.id.listButton);
+                viewHolder.title = (TextView) convertView.findViewById(R.id.productName);
+                viewHolder.button = (Button) convertView.findViewById(R.id.removeProduct);
+//                viewHolder.EAN = (TextView) convertView.findViewById(R.id.productEAN);
+                viewHolder.price = (TextView) convertView.findViewById(R.id.productPrice);
                 convertView.setTag(viewHolder);
             }
             mainViewholder = (ViewHolder) convertView.getTag();
@@ -123,14 +144,24 @@ public class BasketFragment extends Fragment {
                     UpdatePrice();
                 }
             });
-            mainViewholder.title.setText(getItem(position).toString());
+            mainViewholder.title.setText(getItem(position).getName());
+//            mainViewholder.EAN.setText("bar code " + getItem(position).getEAN());
+            mainViewholder.price.setText("Price: " + getItem(position).getLowestPrice());
+
 
             return convertView;
         }
 
         public void UpdatePrice(){
-            TextView txtView = (TextView) ((Activity)context).findViewById(R.id.priceView);
-            txtView.setText("Total: " + String.format("%.2f", GlobalParameters.b.getTotalPrice()) + "€");
+            TextView txtView = (TextView) ((Activity)context).findViewById(R.id.selverPrice);
+            txtView.setText("Selver: " + String.format("%.2f", GlobalParameters.b.getSelverPrice()) + "€");
+
+            TextView txt2View = (TextView) ((Activity)context).findViewById(R.id.prismaPrice);
+            txtView.setText("Prisma: " + String.format("%.2f", GlobalParameters.b.getPrismaPrice()) + "€");
+
+            TextView txt3View = (TextView) ((Activity)context).findViewById(R.id.maximaPrice);
+            txtView.setText("Maxima: " + String.format("%.2f", GlobalParameters.b.getMaximaPrice()) + "€");
+
         }
 
     }
@@ -138,6 +169,8 @@ public class BasketFragment extends Fragment {
     public class ViewHolder {
         ImageView thumbnail;
         TextView title;
+        TextView EAN;
+        TextView price;
         Button button;
     }
 }

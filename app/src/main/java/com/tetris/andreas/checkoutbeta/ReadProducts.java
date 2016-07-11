@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,7 +39,10 @@ public class ReadProducts {
 
         this.fileName = fileName;
 
-        readToString();
+        productsList = new ArrayList<>();
+
+
+        readFromJSON();
     }
 
     public Map<String, List<Product>> getFoodCollection() {
@@ -46,53 +53,114 @@ public class ReadProducts {
         return this.groupList;
     }
 
-    private boolean readToString() {
+//    private boolean readToString() {
+//        AssetManager assetManager = context.getAssets();
+//        try {
+//            InputStream stream = assetManager.open(fileName);
+//
+//            BufferedReader in=
+//                    new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+//            String str;
+//
+//            while ((str=in.readLine()) != null) {
+//                lineToLists(str);
+//            }
+//
+//            in.close();
+//            stream.close();
+//            return true;
+//        }
+//        catch (IOException e){
+//            Log.e("message: ",e.getMessage());
+//            return false;
+//        }
+//    }
+
+    private void readFromJSON() {
+        BufferedReader br = null;
         AssetManager assetManager = context.getAssets();
+
         try {
             InputStream stream = assetManager.open(fileName);
 
-            BufferedReader in=
-                    new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+
+            InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
+
+
+            br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
             String str;
-
-            while ((str=in.readLine()) != null) {
-                lineToLists(str);
+            while ((str = br.readLine()) != null) {
+                System.out.println(str);
+                try {
+                    loadProduct(str);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
-            in.close();
-            stream.close();
-            return true;
-        }
-        catch (IOException e){
-            Log.e("message: ",e.getMessage());
-            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null)
+                    br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
-    private void lineToLists(String s) {
-        System.out.println(s);
-        String[] spl = s.split("-");
+//    private void lineToLists(String s) {
+//        System.out.println(s);
+//        String[] spl = s.split("-");
+//
+//        if (spl.length != 2) {
+//            Log.d("WRONG SIZE", "Line length is wrong, needs checking!");
+//            return;
+//        }
+//
+//        groupList.add(spl[0]);
+//
+//        loadChild(spl[1].split(","));
+//
+//        foodCollection.put(spl[0], productsList);
+//    }
 
-        if (spl.length != 2) {
-            Log.d("WRONG SIZE", "Line length is wrong, needs checking!");
+//    private void loadChild(String[] products) {
+//        childList = new ArrayList<>();
+//        productsList = new ArrayList<>();
+//        for (String type : products) {
+//            Product temp = new Product(type.split("\\.")[0], Double.parseDouble(type.split("\\.")[1]) / 100);
+//            productsList.add(temp);
+//            childList.add(temp.toString());
+//        }
+//    }
+
+    private void loadProduct(String line) throws JSONException {
+        JSONObject obj = new JSONObject(line);
+        if (line == null || line.trim().length() == 0) {
             return;
         }
+        System.out.println("PRODUCT NAME: " + obj.getString("product"));
 
-        groupList.add(spl[0]);
+        Product temp = new Product(obj.getString("product"), Double.parseDouble(obj.getString("shop1price").replace(",", ".")),
+                Double.parseDouble(obj.getString("shop2price").replace(",", ".")), Double.parseDouble(obj.getString("shop3price").replace(",", ".")),
+                obj.getString("EAN"), obj.getString("iconURL"), obj.getString("description"));
 
-        loadChild(spl[1].split(","));
+        productsList.add(temp);
 
-        foodCollection.put(spl[0], productsList);
-    }
 
-    private void loadChild(String[] products) {
-        childList = new ArrayList<>();
-        productsList = new ArrayList<>();
-        for (String type : products) {
-            Product temp = new Product(type.split("\\.")[0], Double.parseDouble(type.split("\\.")[1]) / 100);
-            productsList.add(temp);
-            childList.add(temp.toString());
+        if (!groupList.contains(obj.getString("category"))) {
+            groupList.add(obj.getString("category"));
         }
+
+        List<Product> temp1 = foodCollection.get(obj.getString("category"));
+
+        if (temp1 == null) {
+            temp1 = new ArrayList<>();
+        }
+        temp1.add(temp);
+
+        foodCollection.put(obj.getString("category"), temp1);
 
 
     }

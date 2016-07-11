@@ -55,8 +55,34 @@ public class Basket {
     public double getTotalPrice() {
         double total = 0;
         for (Product p : allProducts) {
-            total += p.getPrice();
+            total += p.getLowestPriceDouble();
         }
         return total;
     }
+
+    public double getPrismaPrice() {
+        double total = 0;
+        for (Product p : allProducts) {
+            total += p.getPrismaPrice();
+        }
+        return total;
+    }
+
+    public double getSelverPrice() {
+        double total = 0;
+        for (Product p : allProducts) {
+            total += p.getSelverPrice();
+        }
+        return total;
+    }
+
+    public double getMaximaPrice() {
+        double total = 0;
+        for (Product p : allProducts) {
+            total += p.getMaximaPrice();
+        }
+        return total;
+    }
+
+
 }
