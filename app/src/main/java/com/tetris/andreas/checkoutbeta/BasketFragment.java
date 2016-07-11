@@ -138,10 +138,10 @@ public class BasketFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext(), "Item removed!", Toast.LENGTH_SHORT).show();
-                    remove(getItem(position));
+                    GlobalParameters.b.removeProduct(position);
+//                    remove(getItem(position));
                     notifyDataSetChanged();
                     System.out.println(position);
-                    GlobalParameters.b.removeProduct(position);
                     System.out.println(GlobalParameters.b.getAllProducts());
                     UpdatePrice();
                 }
